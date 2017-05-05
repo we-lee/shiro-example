@@ -14,6 +14,8 @@ import org.apache.shiro.util.Factory;
 import org.apache.shiro.util.ThreadContext;
 import org.junit.After;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 
@@ -24,7 +26,7 @@ import java.sql.Connection;
  * <p>Version: 1.0
  */
 public class LoginLogoutTest {
-
+    public static final Logger LOGGER = LoggerFactory.getLogger(LoginLogoutTest.class);
     @Test
     public void testHelloworld() {
         //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
@@ -44,10 +46,12 @@ public class LoginLogoutTest {
             subject.login(token);
         } catch (AuthenticationException e) {
             //5、身份验证失败
+            e.printStackTrace();
         }
 
         Assert.assertEquals(true, subject.isAuthenticated()); //断言用户已经登录
 
+        LOGGER.info(subject.getPrincipals().toString());
         //6、退出
         subject.logout();
     }
@@ -77,6 +81,7 @@ public class LoginLogoutTest {
 
         Assert.assertEquals(true, subject.isAuthenticated()); //断言用户已经登录
 
+        LOGGER.info(subject.getPrincipals().toString());
         //6、退出
         subject.logout();
     }
@@ -104,7 +109,7 @@ public class LoginLogoutTest {
         }
 
         Assert.assertEquals(true, subject.isAuthenticated()); //断言用户已经登录
-
+        LOGGER.info(subject.getPrincipals().toString());
         //6、退出
         subject.logout();
     }
@@ -133,7 +138,7 @@ public class LoginLogoutTest {
         }
 
         Assert.assertEquals(true, subject.isAuthenticated()); //断言用户已经登录
-
+        LOGGER.info(subject.getPrincipals().toString());
         //6、退出
         subject.logout();
     }
