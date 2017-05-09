@@ -9,6 +9,9 @@ import org.apache.shiro.crypto.hash.*;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.util.SimpleByteSource;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 import javax.crypto.Cipher;
 import java.security.*;
@@ -25,12 +28,13 @@ import java.security.spec.X509EncodedKeySpec;
  */
 public class CodecAndCryptoTest {
 
-
+    public static final Logger LOGGER = LoggerFactory.getLogger(CodecAndCryptoTest.class);
 
     @Test
     public void testBase64() {
         String str = "hello";
         String base64Encoded = Base64.encodeToString(str.getBytes());
+        LOGGER.info(base64Encoded);
         String str2 = Base64.decodeToString(base64Encoded);
         Assert.assertEquals(str, str2);
 
@@ -40,6 +44,7 @@ public class CodecAndCryptoTest {
     public void testHex() {
         String str = "hello";
         String base64Encoded = Hex.encodeToString(str.getBytes());
+        LOGGER.info(base64Encoded);
         String str2 = new String(Hex.decode(base64Encoded.getBytes()));
         Assert.assertEquals(str, str2);
 
@@ -151,6 +156,7 @@ public class CodecAndCryptoTest {
 
         //加密
         String encrptText = aesCipherService.encrypt(text.getBytes(), key.getEncoded()).toHex();
+        LOGGER.info(encrptText);
         //解密
         String text2 = new String(aesCipherService.decrypt(Hex.decode(encrptText), key.getEncoded()).getBytes());
 
@@ -169,6 +175,7 @@ public class CodecAndCryptoTest {
 
         //加密
         String encrptText = blowfishCipherService.encrypt(text.getBytes(), key.getEncoded()).toHex();
+        LOGGER.info(encrptText);
         //解密
         String text2 = new String(blowfishCipherService.decrypt(Hex.decode(encrptText), key.getEncoded()).getBytes());
 
@@ -190,6 +197,7 @@ public class CodecAndCryptoTest {
 
         //加密
         String encrptText = cipherService.encrypt(text.getBytes(), key.getEncoded()).toHex();
+        LOGGER.info(encrptText);
         //解密
         String text2 = new String(cipherService.decrypt(Hex.decode(encrptText), key.getEncoded()).getBytes());
 
